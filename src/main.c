@@ -14,16 +14,15 @@ int main(){
     window = sfRenderWindow_create(mode, "Asteroid destoryer", sfResize | sfClose, NULL);
     if (!window) return 1;
     
-        // Start the game loop
+    // Start the game loop
     while (sfRenderWindow_isOpen(window)) {
         // Process events
-        
         while (sfRenderWindow_pollEvent(window, &event)) {
             // Close window: exit
-            if (event.type == sfEvtClosed)
-                sfRenderWindow_close(window);
+            if (event.type == sfEvtClosed) sfRenderWindow_close(window);
         }
-            /* Clear the screen */
+        
+        /* Clear the screen */
         sfRenderWindow_clear(window, sfBlack);
 
         /* Update the window */
