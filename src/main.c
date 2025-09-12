@@ -35,7 +35,7 @@ Bullet bullets[MAX_BULLETS];
 void update(sfSprite* player, sfRenderWindow* window);
 void initColors();
 void checkMovementInput(sfEvent event);
-void fireBullet(sfSprite* player, sfVector2i mousePos);
+void fireBullet(sfSprite* player, sfVector2i mousePos, sfWindow* window);
 
 int main() {
     // SFML variables
@@ -92,7 +92,7 @@ int main() {
 
         // Fire bullet
         if (sfKeyboard_isKeyPressed(sfKeySpace)) {
-            fireBullet(player, mousePos);
+            fireBullet(player, mousePos, window);
         }
 
         // Update bullets
@@ -128,13 +128,26 @@ int main() {
     return 0;
 }
 
-void fireBullet(sfSprite* player, sfVector2i mousePos) {
+void fireBullet(sfSprite* player, sfVector2i mousePos, sfWindow* window) {
     // Find inactive bullet
     for (int i = 0; i < MAX_BULLETS; i++) {
         if (!bullets[i].alive) {
             bullets[i].sprite = initializeSprite("./sprites/bullet.png");
             sfVector2f playerPos = sfSprite_getPosition(player);
             sfSprite_setPosition(bullets[i].sprite, playerPos);
+
+            sfSprite_setScale(bullets[i].sprite, (sfVector2f){0.1,0.1});
+
+            sfFloatRect bounds = sfSprite_getLocalBounds(bullets[i].sprite);
+            sfSprite_setOrigin(bullets[i].sprite, (sfVector2f){bounds.width / 2, bounds.height / 2});
+
+
+            sfVector2i mousePos = sfMouse_getPositionRenderWindow(window);
+            float bx = mousePos.x - playerDefaultPosition.x;
+            float by = mousePos.y - playerDefaultPosition.y;
+            float angle = atan2f(by, bx) * 180.f / 3.14159265f;
+            sfSprite_setRotation(bullets[i].sprite, angle-90);
+
 
             // Compute direction
             float dx = mousePos.x - playerPos.x;
