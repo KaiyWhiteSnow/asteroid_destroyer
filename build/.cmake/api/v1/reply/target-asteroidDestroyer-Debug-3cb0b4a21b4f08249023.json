@@ -11,8 +11,8 @@
 		"commands" : 
 		[
 			"add_executable",
-			"target_link_directories",
-			"target_link_libraries"
+			"target_link_libraries",
+			"target_include_directories"
 		],
 		"files" : 
 		[
@@ -26,19 +26,19 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 14,
+				"line" : 13,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 18,
+				"line" : 19,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 19,
+				"line" : 16,
 				"parent" : 0
 			}
 		]
@@ -46,6 +46,19 @@
 	"compileGroups" : 
 	[
 		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "/home/kaiy/Documents/GitHub/asteroid_destroyer/includes"
+				}
+			],
 			"language" : "C",
 			"sourceIndexes" : 
 			[
@@ -59,40 +72,35 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "-rdynamic",
+				"fragment" : "-g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
 				"role" : "flags"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "-L/home/kaiy/Documents/GitHub/asteroid_destroyer/src",
-				"role" : "libraryPath"
-			},
-			{
-				"fragment" : "-Wl,-rpath,/home/kaiy/Documents/GitHub/asteroid_destroyer/src",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 3,
 				"fragment" : "-lcsfml-system",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 3,
+				"backtrace" : 2,
 				"fragment" : "-lcsfml-window",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 3,
+				"backtrace" : 2,
 				"fragment" : "-lcsfml-graphics",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 3,
+				"backtrace" : 2,
 				"fragment" : "-lcsfml-audio",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 3,
+				"backtrace" : 2,
 				"fragment" : "-lcsfml-network",
 				"role" : "libraries"
 			}

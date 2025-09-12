@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/kaiy/Documents/GitHub/asteroid_destroyer/build",
+  "command": "/usr/bin/gcc  -I/home/kaiy/Documents/GitHub/asteroid_destroyer/includes -g -o CMakeFiles/asteroidDestroyer.dir/src/main.c.o -c /home/kaiy/Documents/GitHub/asteroid_destroyer/src/main.c",
+  "file": "/home/kaiy/Documents/GitHub/asteroid_destroyer/src/main.c",
+  "output": "CMakeFiles/asteroidDestroyer.dir/src/main.c.o"
+}
+]

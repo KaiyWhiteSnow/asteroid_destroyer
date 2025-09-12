@@ -73,15 +73,15 @@ CMakeFiles/asteroidDestroyer.dir/src/main.c.o: CMakeFiles/asteroidDestroyer.dir/
 CMakeFiles/asteroidDestroyer.dir/src/main.c.o: /home/kaiy/Documents/GitHub/asteroid_destroyer/src/main.c
 CMakeFiles/asteroidDestroyer.dir/src/main.c.o: CMakeFiles/asteroidDestroyer.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/kaiy/Documents/GitHub/asteroid_destroyer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/asteroidDestroyer.dir/src/main.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/asteroidDestroyer.dir/src/main.c.o -MF CMakeFiles/asteroidDestroyer.dir/src/main.c.o.d -o CMakeFiles/asteroidDestroyer.dir/src/main.c.o -c /home/kaiy/Documents/GitHub/asteroid_destroyer/src/main.c
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/asteroidDestroyer.dir/src/main.c.o -MF CMakeFiles/asteroidDestroyer.dir/src/main.c.o.d -o CMakeFiles/asteroidDestroyer.dir/src/main.c.o -c /home/kaiy/Documents/GitHub/asteroid_destroyer/src/main.c
 
 CMakeFiles/asteroidDestroyer.dir/src/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/asteroidDestroyer.dir/src/main.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kaiy/Documents/GitHub/asteroid_destroyer/src/main.c > CMakeFiles/asteroidDestroyer.dir/src/main.c.i
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kaiy/Documents/GitHub/asteroid_destroyer/src/main.c > CMakeFiles/asteroidDestroyer.dir/src/main.c.i
 
 CMakeFiles/asteroidDestroyer.dir/src/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/asteroidDestroyer.dir/src/main.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kaiy/Documents/GitHub/asteroid_destroyer/src/main.c -o CMakeFiles/asteroidDestroyer.dir/src/main.c.s
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kaiy/Documents/GitHub/asteroid_destroyer/src/main.c -o CMakeFiles/asteroidDestroyer.dir/src/main.c.s
 
 # Object files for target asteroidDestroyer
 asteroidDestroyer_OBJECTS = \
