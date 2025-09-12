@@ -4,7 +4,7 @@
 # compile C with /usr/bin/gcc
 C_DEFINES = 
 
-C_INCLUDES = -I/home/kaiy/Documents/GitHub/asteroid_destroyer/includes
+C_INCLUDES = 
 
 C_FLAGS = -g
 

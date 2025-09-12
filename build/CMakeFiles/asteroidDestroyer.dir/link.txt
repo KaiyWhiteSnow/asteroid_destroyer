@@ -1,1 +1,1 @@
-/usr/bin/gcc -g CMakeFiles/asteroidDestroyer.dir/src/main.c.o -o asteroidDestroyer  -lcsfml-system -lcsfml-window -lcsfml-graphics -lcsfml-audio -lcsfml-network 
+/usr/bin/gcc -g CMakeFiles/asteroidDestroyer.dir/src/main.c.o -o asteroidDestroyer   -L/home/kaiy/Documents/GitHub/asteroid_destroyer/src  -Wl,-rpath,/home/kaiy/Documents/GitHub/asteroid_destroyer/src -lcsfml-system -lcsfml-window -lcsfml-graphics -lcsfml-audio -lcsfml-network -lm 

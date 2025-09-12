@@ -1,25 +1,19 @@
+# Minimální verze CMake
 cmake_minimum_required(VERSION 3.5)
 
+# Konstanty
 set(PROJECT_NAME "asteroidDestroyer")
+
+# Nastavení názvu projektu
 project(${PROJECT_NAME})
 
-# SFML
+# Balíčky (nepovinné, ale podstatné)
 find_package(SFML 2.5 COMPONENTS system window graphics audio network REQUIRED)
 
-# Source files
-file(GLOB SRC_FILES src/*.c)
-
-# Executable
-add_executable(${PROJECT_NAME} ${SRC_FILES})
-
-# Include headers
-target_include_directories(${PROJECT_NAME} PUBLIC includes)
-
-# Link SFML
-target_link_libraries(${PROJECT_NAME} 
-  csfml-system 
-  csfml-window 
-  csfml-graphics 
-  csfml-audio 
-  csfml-network
+# Tvorba executable
+add_executable(
+  ${PROJECT_NAME}
+  src/main.c
 )
+target_link_directories(${PROJECT_NAME} PUBLIC src)
+target_link_libraries(${PROJECT_NAME} csfml-system csfml-window csfml-graphics csfml-audio csfml-network m)
