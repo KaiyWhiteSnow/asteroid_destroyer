@@ -69,10 +69,66 @@ include CMakeFiles/asteroidDestroyer.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/asteroidDestroyer.dir/flags.make
 
+CMakeFiles/asteroidDestroyer.dir/src/window.c.o: CMakeFiles/asteroidDestroyer.dir/flags.make
+CMakeFiles/asteroidDestroyer.dir/src/window.c.o: /home/kaiy/Documents/GitHub/asteroid_destroyer/src/window.c
+CMakeFiles/asteroidDestroyer.dir/src/window.c.o: CMakeFiles/asteroidDestroyer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/kaiy/Documents/GitHub/asteroid_destroyer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/asteroidDestroyer.dir/src/window.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/asteroidDestroyer.dir/src/window.c.o -MF CMakeFiles/asteroidDestroyer.dir/src/window.c.o.d -o CMakeFiles/asteroidDestroyer.dir/src/window.c.o -c /home/kaiy/Documents/GitHub/asteroid_destroyer/src/window.c
+
+CMakeFiles/asteroidDestroyer.dir/src/window.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/asteroidDestroyer.dir/src/window.c.i"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kaiy/Documents/GitHub/asteroid_destroyer/src/window.c > CMakeFiles/asteroidDestroyer.dir/src/window.c.i
+
+CMakeFiles/asteroidDestroyer.dir/src/window.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/asteroidDestroyer.dir/src/window.c.s"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kaiy/Documents/GitHub/asteroid_destroyer/src/window.c -o CMakeFiles/asteroidDestroyer.dir/src/window.c.s
+
+CMakeFiles/asteroidDestroyer.dir/src/physics.c.o: CMakeFiles/asteroidDestroyer.dir/flags.make
+CMakeFiles/asteroidDestroyer.dir/src/physics.c.o: /home/kaiy/Documents/GitHub/asteroid_destroyer/src/physics.c
+CMakeFiles/asteroidDestroyer.dir/src/physics.c.o: CMakeFiles/asteroidDestroyer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/kaiy/Documents/GitHub/asteroid_destroyer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/asteroidDestroyer.dir/src/physics.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/asteroidDestroyer.dir/src/physics.c.o -MF CMakeFiles/asteroidDestroyer.dir/src/physics.c.o.d -o CMakeFiles/asteroidDestroyer.dir/src/physics.c.o -c /home/kaiy/Documents/GitHub/asteroid_destroyer/src/physics.c
+
+CMakeFiles/asteroidDestroyer.dir/src/physics.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/asteroidDestroyer.dir/src/physics.c.i"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kaiy/Documents/GitHub/asteroid_destroyer/src/physics.c > CMakeFiles/asteroidDestroyer.dir/src/physics.c.i
+
+CMakeFiles/asteroidDestroyer.dir/src/physics.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/asteroidDestroyer.dir/src/physics.c.s"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kaiy/Documents/GitHub/asteroid_destroyer/src/physics.c -o CMakeFiles/asteroidDestroyer.dir/src/physics.c.s
+
+CMakeFiles/asteroidDestroyer.dir/src/movement.c.o: CMakeFiles/asteroidDestroyer.dir/flags.make
+CMakeFiles/asteroidDestroyer.dir/src/movement.c.o: /home/kaiy/Documents/GitHub/asteroid_destroyer/src/movement.c
+CMakeFiles/asteroidDestroyer.dir/src/movement.c.o: CMakeFiles/asteroidDestroyer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/kaiy/Documents/GitHub/asteroid_destroyer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/asteroidDestroyer.dir/src/movement.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/asteroidDestroyer.dir/src/movement.c.o -MF CMakeFiles/asteroidDestroyer.dir/src/movement.c.o.d -o CMakeFiles/asteroidDestroyer.dir/src/movement.c.o -c /home/kaiy/Documents/GitHub/asteroid_destroyer/src/movement.c
+
+CMakeFiles/asteroidDestroyer.dir/src/movement.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/asteroidDestroyer.dir/src/movement.c.i"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kaiy/Documents/GitHub/asteroid_destroyer/src/movement.c > CMakeFiles/asteroidDestroyer.dir/src/movement.c.i
+
+CMakeFiles/asteroidDestroyer.dir/src/movement.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/asteroidDestroyer.dir/src/movement.c.s"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kaiy/Documents/GitHub/asteroid_destroyer/src/movement.c -o CMakeFiles/asteroidDestroyer.dir/src/movement.c.s
+
+CMakeFiles/asteroidDestroyer.dir/src/color.c.o: CMakeFiles/asteroidDestroyer.dir/flags.make
+CMakeFiles/asteroidDestroyer.dir/src/color.c.o: /home/kaiy/Documents/GitHub/asteroid_destroyer/src/color.c
+CMakeFiles/asteroidDestroyer.dir/src/color.c.o: CMakeFiles/asteroidDestroyer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/kaiy/Documents/GitHub/asteroid_destroyer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/asteroidDestroyer.dir/src/color.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/asteroidDestroyer.dir/src/color.c.o -MF CMakeFiles/asteroidDestroyer.dir/src/color.c.o.d -o CMakeFiles/asteroidDestroyer.dir/src/color.c.o -c /home/kaiy/Documents/GitHub/asteroid_destroyer/src/color.c
+
+CMakeFiles/asteroidDestroyer.dir/src/color.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/asteroidDestroyer.dir/src/color.c.i"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kaiy/Documents/GitHub/asteroid_destroyer/src/color.c > CMakeFiles/asteroidDestroyer.dir/src/color.c.i
+
+CMakeFiles/asteroidDestroyer.dir/src/color.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/asteroidDestroyer.dir/src/color.c.s"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kaiy/Documents/GitHub/asteroid_destroyer/src/color.c -o CMakeFiles/asteroidDestroyer.dir/src/color.c.s
+
 CMakeFiles/asteroidDestroyer.dir/src/main.c.o: CMakeFiles/asteroidDestroyer.dir/flags.make
 CMakeFiles/asteroidDestroyer.dir/src/main.c.o: /home/kaiy/Documents/GitHub/asteroid_destroyer/src/main.c
 CMakeFiles/asteroidDestroyer.dir/src/main.c.o: CMakeFiles/asteroidDestroyer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/kaiy/Documents/GitHub/asteroid_destroyer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/asteroidDestroyer.dir/src/main.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/kaiy/Documents/GitHub/asteroid_destroyer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/asteroidDestroyer.dir/src/main.c.o"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/asteroidDestroyer.dir/src/main.c.o -MF CMakeFiles/asteroidDestroyer.dir/src/main.c.o.d -o CMakeFiles/asteroidDestroyer.dir/src/main.c.o -c /home/kaiy/Documents/GitHub/asteroid_destroyer/src/main.c
 
 CMakeFiles/asteroidDestroyer.dir/src/main.c.i: cmake_force
@@ -85,15 +141,23 @@ CMakeFiles/asteroidDestroyer.dir/src/main.c.s: cmake_force
 
 # Object files for target asteroidDestroyer
 asteroidDestroyer_OBJECTS = \
+"CMakeFiles/asteroidDestroyer.dir/src/window.c.o" \
+"CMakeFiles/asteroidDestroyer.dir/src/physics.c.o" \
+"CMakeFiles/asteroidDestroyer.dir/src/movement.c.o" \
+"CMakeFiles/asteroidDestroyer.dir/src/color.c.o" \
 "CMakeFiles/asteroidDestroyer.dir/src/main.c.o"
 
 # External object files for target asteroidDestroyer
 asteroidDestroyer_EXTERNAL_OBJECTS =
 
+asteroidDestroyer: CMakeFiles/asteroidDestroyer.dir/src/window.c.o
+asteroidDestroyer: CMakeFiles/asteroidDestroyer.dir/src/physics.c.o
+asteroidDestroyer: CMakeFiles/asteroidDestroyer.dir/src/movement.c.o
+asteroidDestroyer: CMakeFiles/asteroidDestroyer.dir/src/color.c.o
 asteroidDestroyer: CMakeFiles/asteroidDestroyer.dir/src/main.c.o
 asteroidDestroyer: CMakeFiles/asteroidDestroyer.dir/build.make
 asteroidDestroyer: CMakeFiles/asteroidDestroyer.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/kaiy/Documents/GitHub/asteroid_destroyer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable asteroidDestroyer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/kaiy/Documents/GitHub/asteroid_destroyer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C executable asteroidDestroyer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/asteroidDestroyer.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

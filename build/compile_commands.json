@@ -1,6 +1,30 @@
 [
 {
   "directory": "/home/kaiy/Documents/GitHub/asteroid_destroyer/build",
+  "command": "/usr/bin/gcc   -g -o CMakeFiles/asteroidDestroyer.dir/src/window.c.o -c /home/kaiy/Documents/GitHub/asteroid_destroyer/src/window.c",
+  "file": "/home/kaiy/Documents/GitHub/asteroid_destroyer/src/window.c",
+  "output": "CMakeFiles/asteroidDestroyer.dir/src/window.c.o"
+},
+{
+  "directory": "/home/kaiy/Documents/GitHub/asteroid_destroyer/build",
+  "command": "/usr/bin/gcc   -g -o CMakeFiles/asteroidDestroyer.dir/src/physics.c.o -c /home/kaiy/Documents/GitHub/asteroid_destroyer/src/physics.c",
+  "file": "/home/kaiy/Documents/GitHub/asteroid_destroyer/src/physics.c",
+  "output": "CMakeFiles/asteroidDestroyer.dir/src/physics.c.o"
+},
+{
+  "directory": "/home/kaiy/Documents/GitHub/asteroid_destroyer/build",
+  "command": "/usr/bin/gcc   -g -o CMakeFiles/asteroidDestroyer.dir/src/movement.c.o -c /home/kaiy/Documents/GitHub/asteroid_destroyer/src/movement.c",
+  "file": "/home/kaiy/Documents/GitHub/asteroid_destroyer/src/movement.c",
+  "output": "CMakeFiles/asteroidDestroyer.dir/src/movement.c.o"
+},
+{
+  "directory": "/home/kaiy/Documents/GitHub/asteroid_destroyer/build",
+  "command": "/usr/bin/gcc   -g -o CMakeFiles/asteroidDestroyer.dir/src/color.c.o -c /home/kaiy/Documents/GitHub/asteroid_destroyer/src/color.c",
+  "file": "/home/kaiy/Documents/GitHub/asteroid_destroyer/src/color.c",
+  "output": "CMakeFiles/asteroidDestroyer.dir/src/color.c.o"
+},
+{
+  "directory": "/home/kaiy/Documents/GitHub/asteroid_destroyer/build",
   "command": "/usr/bin/gcc   -g -o CMakeFiles/asteroidDestroyer.dir/src/main.c.o -c /home/kaiy/Documents/GitHub/asteroid_destroyer/src/main.c",
   "file": "/home/kaiy/Documents/GitHub/asteroid_destroyer/src/main.c",
   "output": "CMakeFiles/asteroidDestroyer.dir/src/main.c.o"

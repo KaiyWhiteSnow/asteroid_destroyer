@@ -129,6 +129,30 @@ asteroidDestroyer/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/asteroidDestroyer.dir/build.make CMakeFiles/asteroidDestroyer.dir/build
 .PHONY : asteroidDestroyer/fast
 
+src/color.o: src/color.c.o
+.PHONY : src/color.o
+
+# target to build an object file
+src/color.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/asteroidDestroyer.dir/build.make CMakeFiles/asteroidDestroyer.dir/src/color.c.o
+.PHONY : src/color.c.o
+
+src/color.i: src/color.c.i
+.PHONY : src/color.i
+
+# target to preprocess a source file
+src/color.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/asteroidDestroyer.dir/build.make CMakeFiles/asteroidDestroyer.dir/src/color.c.i
+.PHONY : src/color.c.i
+
+src/color.s: src/color.c.s
+.PHONY : src/color.s
+
+# target to generate assembly for a file
+src/color.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/asteroidDestroyer.dir/build.make CMakeFiles/asteroidDestroyer.dir/src/color.c.s
+.PHONY : src/color.c.s
+
 src/main.o: src/main.c.o
 .PHONY : src/main.o
 
@@ -153,6 +177,78 @@ src/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/asteroidDestroyer.dir/build.make CMakeFiles/asteroidDestroyer.dir/src/main.c.s
 .PHONY : src/main.c.s
 
+src/movement.o: src/movement.c.o
+.PHONY : src/movement.o
+
+# target to build an object file
+src/movement.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/asteroidDestroyer.dir/build.make CMakeFiles/asteroidDestroyer.dir/src/movement.c.o
+.PHONY : src/movement.c.o
+
+src/movement.i: src/movement.c.i
+.PHONY : src/movement.i
+
+# target to preprocess a source file
+src/movement.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/asteroidDestroyer.dir/build.make CMakeFiles/asteroidDestroyer.dir/src/movement.c.i
+.PHONY : src/movement.c.i
+
+src/movement.s: src/movement.c.s
+.PHONY : src/movement.s
+
+# target to generate assembly for a file
+src/movement.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/asteroidDestroyer.dir/build.make CMakeFiles/asteroidDestroyer.dir/src/movement.c.s
+.PHONY : src/movement.c.s
+
+src/physics.o: src/physics.c.o
+.PHONY : src/physics.o
+
+# target to build an object file
+src/physics.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/asteroidDestroyer.dir/build.make CMakeFiles/asteroidDestroyer.dir/src/physics.c.o
+.PHONY : src/physics.c.o
+
+src/physics.i: src/physics.c.i
+.PHONY : src/physics.i
+
+# target to preprocess a source file
+src/physics.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/asteroidDestroyer.dir/build.make CMakeFiles/asteroidDestroyer.dir/src/physics.c.i
+.PHONY : src/physics.c.i
+
+src/physics.s: src/physics.c.s
+.PHONY : src/physics.s
+
+# target to generate assembly for a file
+src/physics.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/asteroidDestroyer.dir/build.make CMakeFiles/asteroidDestroyer.dir/src/physics.c.s
+.PHONY : src/physics.c.s
+
+src/window.o: src/window.c.o
+.PHONY : src/window.o
+
+# target to build an object file
+src/window.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/asteroidDestroyer.dir/build.make CMakeFiles/asteroidDestroyer.dir/src/window.c.o
+.PHONY : src/window.c.o
+
+src/window.i: src/window.c.i
+.PHONY : src/window.i
+
+# target to preprocess a source file
+src/window.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/asteroidDestroyer.dir/build.make CMakeFiles/asteroidDestroyer.dir/src/window.c.i
+.PHONY : src/window.c.i
+
+src/window.s: src/window.c.s
+.PHONY : src/window.s
+
+# target to generate assembly for a file
+src/window.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/asteroidDestroyer.dir/build.make CMakeFiles/asteroidDestroyer.dir/src/window.c.s
+.PHONY : src/window.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,9 +258,21 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... asteroidDestroyer"
+	@echo "... src/color.o"
+	@echo "... src/color.i"
+	@echo "... src/color.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/movement.o"
+	@echo "... src/movement.i"
+	@echo "... src/movement.s"
+	@echo "... src/physics.o"
+	@echo "... src/physics.i"
+	@echo "... src/physics.s"
+	@echo "... src/window.o"
+	@echo "... src/window.i"
+	@echo "... src/window.s"
 .PHONY : help
 
 

@@ -1,25 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <SFML/Audio.h>
 #include <SFML/Graphics.h>
 #include <SFML/System/Vector2.h>
 #include <SFML/Window/VideoMode.h>
-#include <math.h>
+#include "../headers/color.h"
+#include "../headers/window.h"
+#include "../headers/physics.h"
+#include "../headers/movement.h"
 
-/* Prepare textures */
-sfSprite* initializeSprite(const char* texture);
 
-// Player movement and position
-sfVector2f playerDefaultPosition = { 400.f, 300.f };
-float playerVelocity = 500.f;
-float bulletVelocity = 800.f;
+#define MAX_BULLETS 500
 
-sfBool isPlayerMovingLeft = sfFalse;
-sfBool isPlayerMovingRight = sfFalse;
-sfBool isPlayerMovingUp = sfFalse;
-sfBool isPlayerMovingDown = sfFalse;
-
-sfColor ext_sfGrey;
 
 // Bullet struct
 typedef struct {
@@ -28,67 +21,103 @@ typedef struct {
     sfBool alive;
 } Bullet;
 
-#define MAX_BULLETS 500
+
 Bullet bullets[MAX_BULLETS];
 
-// Function prototypes
-void update(sfSprite* player, sfRenderWindow* window);
-void initColors();
-void checkMovementInput(sfEvent event);
-void fireBullet(sfSprite* player, sfVector2i mousePos, sfWindow* window);
 
+// Globals for shared textures
+sfTexture* g_playerTexture = NULL;
+sfTexture* g_bulletTexture = NULL;
+
+
+// Globals
+float bulletVelocity = 800.f;
+
+
+// --- Resource management ---
+int loadResources(void) {
+    g_playerTexture = sfTexture_createFromFile("./sprites/player.png", NULL);
+    if (!g_playerTexture) {
+        fprintf(stderr, "Failed to load player texture\n");
+        return 0;
+    }
+    g_bulletTexture = sfTexture_createFromFile("./sprites/bullet.png", NULL);
+    if (!g_bulletTexture) {
+        fprintf(stderr, "Failed to load bullet texture\n");
+        return 0;
+    }
+    return 1;
+}
+
+
+void freeResources(void) {
+    if (g_playerTexture) { sfTexture_destroy(g_playerTexture); g_playerTexture = NULL; }
+    if (g_bulletTexture) { sfTexture_destroy(g_bulletTexture); g_bulletTexture = NULL; }
+}
+
+
+// Create a sprite from an already-loaded texture (returns NULL on failure)
+sfSprite* createSpriteFromTexture(sfTexture* tex) {
+    if (!tex) return NULL;
+    sfSprite* s = sfSprite_create();
+    if (!s) return NULL;
+    sfSprite_setTexture(s, tex, sfTrue); // sprite holds a reference
+    return s;
+}
+
+
+// --- Prototypes --- Will move into proper files later
+void update(sfSprite* player, sfRenderWindow* window);
+void fireBullet(sfSprite* player, sfVector2i mousePos, sfRenderWindow* window);
+
+
+// --- Main ---
 int main() {
-    // SFML variables
     sfRenderWindow* window;
     sfEvent event;
-    sfVideoMode mode = {800, 600, 32};
 
-    sfClock* clock = sfClock_create();
-
-    window = sfRenderWindow_create(mode, "Asteroid Destroyer", sfResize | sfClose, NULL);
+    window = sfRenderWindow_create(getMode(), "Asteroid Destroyer", sfResize | sfClose, NULL);
     if (!window) return 1;
     sfRenderWindow_setFramerateLimit(window, 60);
 
-    // Colors
-    initColors();
+    if (!loadResources()) {
+        sfRenderWindow_destroy(window);
+        return 1;
+    }
 
     // Player sprite
-    sfSprite* player = initializeSprite("./sprites/player.png");
-    sfSprite_setPosition(player, playerDefaultPosition);
-    sfFloatRect bounds = sfSprite_getLocalBounds(player);
-    sfSprite_setOrigin(player, (sfVector2f){bounds.width / 2, bounds.height / 2});
+    sfSprite* player = createSpriteFromTexture(g_playerTexture);
+    if (!player) {
+        fprintf(stderr, "Failed to create player sprite\n");
+        freeResources();
+        sfRenderWindow_destroy(window);
+        return 1;
+    }
 
-    // Start the game loop
+    sfSprite_setPosition(player, getDefaultPlayerPosition());
+    sfFloatRect pbounds = sfSprite_getLocalBounds(player);
+    sfSprite_setOrigin(player, (sfVector2f){pbounds.width / 2, pbounds.height / 2});
+
+    // Game loop
     while (sfRenderWindow_isOpen(window)) {
-        sfTime deltaTime = sfClock_restart(clock);
-        float dt = sfTime_asSeconds(deltaTime);
+    float deltaTime = restartDeltaTime();   // <<<<<< calculate once
 
         // Process events
-        while (sfRenderWindow_pollEvent(window, &event)) { 
-            if (event.type == sfEvtClosed) sfRenderWindow_close(window); 
-            checkMovementInput(event);
+        while (sfRenderWindow_pollEvent(window, &event)) {
+            if (event.type == sfEvtClosed) sfRenderWindow_close(window);
+            checkMovementInput(event);            
         }
 
-        // Player rotation
+        // Player movement
+        handleMovement(player, deltaTime);
+
+        // Player rotation (towards mouse)
         sfVector2i mousePos = sfMouse_getPositionRenderWindow(window);
-        float dx = mousePos.x - playerDefaultPosition.x;
-        float dy = mousePos.y - playerDefaultPosition.y;
+        sfVector2f playerPos = sfSprite_getPosition(player);  // use current pos!
+        float dx = mousePos.x - playerPos.x;
+        float dy = mousePos.y - playerPos.y;
         float angle = atan2f(dy, dx) * 180.f / 3.14159265f;
         sfSprite_setRotation(player, angle);
-
-        // Movement
-        sfVector2f playerMovement = {0.0f, 0.0f};
-        if (isPlayerMovingRight) { playerMovement.x += playerVelocity * dt; }
-        if (isPlayerMovingLeft)  { playerMovement.x -= playerVelocity * dt; }
-        if (isPlayerMovingDown)  { playerMovement.y += playerVelocity * dt; }
-        if (isPlayerMovingUp)    { playerMovement.y -= playerVelocity * dt; }  
-
-        sfVector2f pos = sfSprite_getPosition(player);
-        if (pos.x + playerMovement.x >= 0.f &&
-            pos.x + playerMovement.x <= mode.width &&
-            pos.y + playerMovement.y >= 0.f &&
-            pos.y + playerMovement.y <= mode.height)
-            sfSprite_move(player, playerMovement);
 
         // Fire bullet
         if (sfKeyboard_isKeyPressed(sfKeySpace)) {
@@ -97,17 +126,16 @@ int main() {
 
         // Update bullets
         for (int i = 0; i < MAX_BULLETS; i++) {
-            if (bullets[i].alive) {
+            if (bullets[i].alive && bullets[i].sprite) {
                 sfVector2f bpos = sfSprite_getPosition(bullets[i].sprite);
-                bpos.x += bullets[i].velocity.x * dt;
-                bpos.y += bullets[i].velocity.y * dt;
+                bpos.x += bullets[i].velocity.x * deltaTime;  // <<<<<< use deltaTime
+                bpos.y += bullets[i].velocity.y * deltaTime;
                 sfSprite_setPosition(bullets[i].sprite, bpos);
 
-                // Destroy if out of bounds
                 if (bpos.x < 0 || bpos.x > 800 || bpos.y < 0 || bpos.y > 600) {
-                    bullets[i].alive = sfFalse;
                     sfSprite_destroy(bullets[i].sprite);
                     bullets[i].sprite = NULL;
+                    bullets[i].alive = sfFalse;
                 }
             }
         }
@@ -116,45 +144,46 @@ int main() {
         update(player, window);
     }
 
+
     // Cleanup
     for (int i = 0; i < MAX_BULLETS; i++) {
-        if (bullets[i].alive)
+        if (bullets[i].alive && bullets[i].sprite) {
             sfSprite_destroy(bullets[i].sprite);
+            bullets[i].sprite = NULL;
+            bullets[i].alive = sfFalse;
+        }
     }
-    sfRenderWindow_destroy(window);
     sfSprite_destroy(player);
-    sfClock_destroy(clock);
+    freeResources();
+    sfRenderWindow_destroy(window);
+    sfClock_destroy(getClock());
 
     return 0;
 }
 
-void fireBullet(sfSprite* player, sfVector2i mousePos, sfWindow* window) {
-    // Find inactive bullet
+// --- Functions ---
+void fireBullet(sfSprite* player, sfVector2i mousePos, sfRenderWindow* window) {
+    if (!player || !window || !g_bulletTexture) return;
+
     for (int i = 0; i < MAX_BULLETS; i++) {
         if (!bullets[i].alive) {
-            bullets[i].sprite = initializeSprite("./sprites/bullet.png");
+            sfSprite* bs = createSpriteFromTexture(g_bulletTexture);
+            if (!bs) return;
+            bullets[i].sprite = bs;
             sfVector2f playerPos = sfSprite_getPosition(player);
-            sfSprite_setPosition(bullets[i].sprite, playerPos);
-
-            sfSprite_setScale(bullets[i].sprite, (sfVector2f){1,1});
-
-            sfFloatRect bounds = sfSprite_getLocalBounds(bullets[i].sprite);
-            sfSprite_setOrigin(bullets[i].sprite, (sfVector2f){bounds.width / 2, bounds.height / 2});
-
-
-            sfVector2i mousePos = sfMouse_getPositionRenderWindow(window);
-            float bx = mousePos.x - playerDefaultPosition.x;
-            float by = mousePos.y - playerDefaultPosition.y;
-            float angle = atan2f(by, bx) * 180.f / 3.14159265f;
-            sfSprite_setRotation(bullets[i].sprite, angle-90);
-
-
-            // Compute direction
-            float dx = mousePos.x - playerPos.x;
-            float dy = mousePos.y - playerPos.y;
+            sfSprite_setPosition(bs, playerPos);
+            sfFloatRect bounds = sfSprite_getLocalBounds(bs);
+            sfSprite_setOrigin(bs, (sfVector2f){bounds.width / 2.f, bounds.height / 2.f});
+            // Direction to mouse
+            float dx = (float)mousePos.x - playerPos.x;
+            float dy = (float)mousePos.y - playerPos.y;
             float length = sqrtf(dx*dx + dy*dy);
+            if (length == 0.f) length = 1.f;
             bullets[i].velocity.x = (dx / length) * bulletVelocity;
             bullets[i].velocity.y = (dy / length) * bulletVelocity;
+
+            float angle = atan2f(dy, dx) * 180.f / 3.14159265f;
+            sfSprite_setRotation(bs, angle - 90.f);
 
             bullets[i].alive = sfTrue;
             break;
@@ -163,40 +192,12 @@ void fireBullet(sfSprite* player, sfVector2i mousePos, sfWindow* window) {
 }
 
 void update(sfSprite* player, sfRenderWindow* window) {
-    sfRenderWindow_clear(window, ext_sfGrey);
-    sfRenderWindow_drawSprite(window, player, NULL);
+    sfRenderWindow_clear(window, sfGray());
+    if (player)
+        sfRenderWindow_drawSprite(window, player, NULL);
     for (int i = 0; i < MAX_BULLETS; i++) {
-        if (bullets[i].alive)
+        if (bullets[i].alive && bullets[i].sprite)
             sfRenderWindow_drawSprite(window, bullets[i].sprite, NULL);
     }
     sfRenderWindow_display(window);
-}
-
-void initColors(){
-    ext_sfGrey = sfColor_fromRGBA(149, 165, 166, 255);
-}
-
-sfSprite* initializeSprite(const char* texture) {
-    sfTexture* spriteTexture = sfTexture_createFromFile(texture, NULL);
-    if (!spriteTexture) return NULL;
-    sfSprite* sprite = sfSprite_create();
-    sfSprite_setTexture(sprite, spriteTexture, sfTrue);
-    return sprite;
-}
-
-void checkMovementInput(sfEvent event) {
-    if (event.type == sfEvtKeyPressed) {
-        sfKeyCode keyCode = event.key.code;
-        if (keyCode == sfKeyRight) { isPlayerMovingRight = sfTrue;  }
-        if (keyCode == sfKeyLeft)  { isPlayerMovingLeft = sfTrue;   }
-        if (keyCode == sfKeyUp)    { isPlayerMovingUp = sfTrue;     }
-        if (keyCode == sfKeyDown)  { isPlayerMovingDown = sfTrue;   }
-    }
-    if (event.type == sfEvtKeyReleased){
-        sfKeyCode keyCode = event.key.code;
-        if (keyCode == sfKeyRight) { isPlayerMovingRight = sfFalse; }
-        if (keyCode == sfKeyLeft)  { isPlayerMovingLeft = sfFalse;  }
-        if (keyCode == sfKeyUp)    { isPlayerMovingUp = sfFalse;    }
-        if (keyCode == sfKeyDown)  { isPlayerMovingDown = sfFalse;  }
-    }
 }

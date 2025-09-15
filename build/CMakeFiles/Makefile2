@@ -81,12 +81,12 @@ clean: CMakeFiles/asteroidDestroyer.dir/clean
 CMakeFiles/asteroidDestroyer.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/asteroidDestroyer.dir/build.make CMakeFiles/asteroidDestroyer.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/asteroidDestroyer.dir/build.make CMakeFiles/asteroidDestroyer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/kaiy/Documents/GitHub/asteroid_destroyer/build/CMakeFiles --progress-num=1,2 "Built target asteroidDestroyer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/kaiy/Documents/GitHub/asteroid_destroyer/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target asteroidDestroyer"
 .PHONY : CMakeFiles/asteroidDestroyer.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/asteroidDestroyer.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/kaiy/Documents/GitHub/asteroid_destroyer/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/kaiy/Documents/GitHub/asteroid_destroyer/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/asteroidDestroyer.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/kaiy/Documents/GitHub/asteroid_destroyer/build/CMakeFiles 0
 .PHONY : CMakeFiles/asteroidDestroyer.dir/rule
