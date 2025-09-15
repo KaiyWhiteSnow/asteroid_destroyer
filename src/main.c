@@ -136,7 +136,7 @@ void fireBullet(sfSprite* player, sfVector2i mousePos, sfWindow* window) {
             sfVector2f playerPos = sfSprite_getPosition(player);
             sfSprite_setPosition(bullets[i].sprite, playerPos);
 
-            sfSprite_setScale(bullets[i].sprite, (sfVector2f){0.1,0.1});
+            sfSprite_setScale(bullets[i].sprite, (sfVector2f){1,1});
 
             sfFloatRect bounds = sfSprite_getLocalBounds(bullets[i].sprite);
             sfSprite_setOrigin(bullets[i].sprite, (sfVector2f){bounds.width / 2, bounds.height / 2});
