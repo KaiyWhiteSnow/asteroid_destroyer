@@ -8,12 +8,13 @@ set(PROJECT_NAME "asteroidDestroyer")
 project(${PROJECT_NAME})
 
 # Balíčky (nepovinné, ale podstatné)
-find_package(SFML 2.5 COMPONENTS system window graphics audio network REQUIRED)
+find_package(SFML 2.6 COMPONENTS system window graphics audio network REQUIRED)
 
 # Tvorba executable
 add_executable(
   ${PROJECT_NAME}
   src/window.c
+
   src/physics.c
   src/movement.c
   src/color.c
