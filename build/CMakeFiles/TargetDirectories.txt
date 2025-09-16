@@ -1,3 +1,0 @@
-/home/kaiy/Documents/GitHub/asteroid_destroyer/build/CMakeFiles/asteroidDestroyer.dir
-/home/kaiy/Documents/GitHub/asteroid_destroyer/build/CMakeFiles/edit_cache.dir
-/home/kaiy/Documents/GitHub/asteroid_destroyer/build/CMakeFiles/rebuild_cache.dir
