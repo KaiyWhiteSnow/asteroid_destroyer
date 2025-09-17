@@ -14,8 +14,7 @@ find_package(SFML 2.6 COMPONENTS system window graphics audio network REQUIRED)
 add_executable(
   ${PROJECT_NAME}
   src/window.c
-
-  src/physics.c
+  src/time.c
   src/movement.c
   src/color.c
   src/main.c

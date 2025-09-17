@@ -7,12 +7,15 @@
 #include <SFML/Window/VideoMode.h>
 #include "../headers/color.h"
 #include "../headers/window.h"
-#include "../headers/physics.h"
+#include "../headers/time.h"
 #include "../headers/movement.h"
 
 
 #define MAX_BULLETS 500
 
+
+const unsigned short int WIDTH = 800;
+const unsigned short int HEIGHT = 400;
 
 // Bullet struct
 typedef struct {
@@ -100,7 +103,7 @@ int main() {
 
     // Game loop
     while (sfRenderWindow_isOpen(window)) {
-    float deltaTime = restartDeltaTime();   // <<<<<< calculate once
+    float deltaTime = restartDeltaTime();   
 
         // Process events
         while (sfRenderWindow_pollEvent(window, &event)) {
@@ -112,15 +115,11 @@ int main() {
         handleMovement(player, deltaTime);
 
         // Player rotation (towards mouse)
-        sfVector2i mousePos = sfMouse_getPositionRenderWindow(window);
-        sfVector2f playerPos = sfSprite_getPosition(player);  // use current pos!
-        float dx = mousePos.x - playerPos.x;
-        float dy = mousePos.y - playerPos.y;
-        float angle = atan2f(dy, dx) * 180.f / 3.14159265f;
-        sfSprite_setRotation(player, angle);
+        handleRotation(player, window);
 
         // Fire bullet
         if (sfKeyboard_isKeyPressed(sfKeySpace)) {
+            sfVector2i mousePos = sfMouse_getPositionRenderWindow(window);
             fireBullet(player, mousePos, window);
         }
 
@@ -128,11 +127,11 @@ int main() {
         for (int i = 0; i < MAX_BULLETS; i++) {
             if (bullets[i].alive && bullets[i].sprite) {
                 sfVector2f bpos = sfSprite_getPosition(bullets[i].sprite);
-                bpos.x += bullets[i].velocity.x * deltaTime;  // <<<<<< use deltaTime
+                bpos.x += bullets[i].velocity.x * deltaTime;  
                 bpos.y += bullets[i].velocity.y * deltaTime;
                 sfSprite_setPosition(bullets[i].sprite, bpos);
 
-                if (bpos.x < 0 || bpos.x > 800 || bpos.y < 0 || bpos.y > 600) {
+                if (bpos.x < 0 || bpos.x > WIDTH || bpos.y < 0 || bpos.y > HEIGHT) {
                     sfSprite_destroy(bullets[i].sprite);
                     bullets[i].sprite = NULL;
                     bullets[i].alive = sfFalse;
@@ -144,7 +143,7 @@ int main() {
         update(player, window);
     }
 
-
+    
     // Cleanup
     for (int i = 0; i < MAX_BULLETS; i++) {
         if (bullets[i].alive && bullets[i].sprite) {
@@ -182,7 +181,7 @@ void fireBullet(sfSprite* player, sfVector2i mousePos, sfRenderWindow* window) {
             bullets[i].velocity.x = (dx / length) * bulletVelocity;
             bullets[i].velocity.y = (dy / length) * bulletVelocity;
 
-            float angle = atan2f(dy, dx) * 180.f / 3.14159265f;
+            float angle = atan2f(dy, dx) * 180.f / getPI();
             sfSprite_setRotation(bs, angle - 90.f);
 
             bullets[i].alive = sfTrue;

@@ -1,7 +1,12 @@
 #include <SFML/System.h>
 #include <SFML/Graphics.h>
+#include <math.h>
 #include "../headers/window.h"
-#include "../headers/physics.h"
+#include "../headers/time.h"
+
+
+#define M_PI 3.14159265358979323846264338327950288
+
 
 // Player movement and position
 sfVector2f playerDefaultPosition = { 400.f, 300.f };
@@ -28,6 +33,16 @@ void handleMovement(sfSprite* player, float deltaTime) {
 }
 
 
+void handleRotation(sfSprite* player, sfRenderWindow* window){
+    sfVector2i mousePos = sfMouse_getPositionRenderWindow(window);
+    sfVector2f playerPos = sfSprite_getPosition(player);  
+    float dx = mousePos.x - playerPos.x;
+    float dy = mousePos.y - playerPos.y;
+    float angle = atan2f(dy, dx) * 180.f / M_PI;
+    sfSprite_setRotation(player, angle);
+}
+
+
 void checkMovementInput(sfEvent event) {
     if (event.type == sfEvtKeyPressed) {
         sfKeyCode keyCode = event.key.code;
@@ -46,3 +61,6 @@ void checkMovementInput(sfEvent event) {
 }
 
 sfVector2f getDefaultPlayerPosition(){ return playerDefaultPosition; }
+double getPI(){
+    return M_PI;
+}
