@@ -1,21 +1,20 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
-#include <SFML/Audio.h>
 #include <SFML/Graphics.h>
 #include <SFML/System/Vector2.h>
 #include <SFML/Window/VideoMode.h>
+
 #include "../headers/color.h"
 #include "../headers/window.h"
 #include "../headers/time.h"
 #include "../headers/movement.h"
-
+#include "../headers/sprites.h"
 
 #define MAX_BULLETS 500
 
 
 const unsigned short int WIDTH = 800;
-const unsigned short int HEIGHT = 400;
+const unsigned short int HEIGHT = 600;
 
 // Bullet struct
 typedef struct {
@@ -28,45 +27,8 @@ typedef struct {
 Bullet bullets[MAX_BULLETS];
 
 
-// Globals for shared textures
-sfTexture* g_playerTexture = NULL;
-sfTexture* g_bulletTexture = NULL;
-
-
 // Globals
 float bulletVelocity = 800.f;
-
-
-// --- Resource management ---
-int loadResources(void) {
-    g_playerTexture = sfTexture_createFromFile("./sprites/player.png", NULL);
-    if (!g_playerTexture) {
-        fprintf(stderr, "Failed to load player texture\n");
-        return 0;
-    }
-    g_bulletTexture = sfTexture_createFromFile("./sprites/bullet.png", NULL);
-    if (!g_bulletTexture) {
-        fprintf(stderr, "Failed to load bullet texture\n");
-        return 0;
-    }
-    return 1;
-}
-
-
-void freeResources(void) {
-    if (g_playerTexture) { sfTexture_destroy(g_playerTexture); g_playerTexture = NULL; }
-    if (g_bulletTexture) { sfTexture_destroy(g_bulletTexture); g_bulletTexture = NULL; }
-}
-
-
-// Create a sprite from an already-loaded texture (returns NULL on failure)
-sfSprite* createSpriteFromTexture(sfTexture* tex) {
-    if (!tex) return NULL;
-    sfSprite* s = sfSprite_create();
-    if (!s) return NULL;
-    sfSprite_setTexture(s, tex, sfTrue); // sprite holds a reference
-    return s;
-}
 
 
 // --- Prototypes --- Will move into proper files later
@@ -89,7 +51,7 @@ int main() {
     }
 
     // Player sprite
-    sfSprite* player = createSpriteFromTexture(g_playerTexture);
+    sfSprite* player = createSpriteFromTexture(getPlayerTexture());
     if (!player) {
         fprintf(stderr, "Failed to create player sprite\n");
         freeResources();
@@ -162,11 +124,11 @@ int main() {
 
 // --- Functions ---
 void fireBullet(sfSprite* player, sfVector2i mousePos, sfRenderWindow* window) {
-    if (!player || !window || !g_bulletTexture) return;
+    if (!player || !window || !getBulletTexture()) return;
 
     for (int i = 0; i < MAX_BULLETS; i++) {
         if (!bullets[i].alive) {
-            sfSprite* bs = createSpriteFromTexture(g_bulletTexture);
+            sfSprite* bs = createSpriteFromTexture(getBulletTexture());
             if (!bs) return;
             bullets[i].sprite = bs;
             sfVector2f playerPos = sfSprite_getPosition(player);
