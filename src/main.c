@@ -37,8 +37,11 @@ Asteroid asteroids[MAX_ASTEROIDS];
 
 
 // Globals
-float bulletVelocity = 800.f;
-float asteroidStartingVelocity = 400.f;
+float bulletVelocity = 400.f;
+float asteroidStartingVelocity = 200.f;
+float fireDelay = 0.2f;   // seconds between shots
+float fireTimer = 0.f;    // counts down
+
 
 
 // --- Prototypes --- Will move into proper files later
@@ -47,6 +50,15 @@ void fireBullet(sfSprite* player, sfVector2i mousePos, sfRenderWindow* window);
 void rainAsteroids(sfSprite* player, sfRenderWindow* window);
 sfVector2f randomAsteroidPosition();
 sfSprite* getRandomAsteroid();
+int getRandomNumberInRange(int min, int max);
+
+
+float distance(sfVector2f a, sfVector2f b) {
+    float dx = a.x - b.x;
+    float dy = a.y - b.y;
+    return sqrtf(dx * dx + dy * dy);
+}
+
 
 // --- Main ---
 int main() {
@@ -109,6 +121,8 @@ int main() {
     // Game loop
     while (sfRenderWindow_isOpen(window)) {
     float deltaTime = restartDeltaTime();   
+    fireTimer -= deltaTime;
+    if (fireTimer < 0.f) fireTimer = 0.f;   
 
         // Process events
         while (sfRenderWindow_pollEvent(window, &event)) {
@@ -126,10 +140,12 @@ int main() {
         rainAsteroids(player, window);
 
         // Fire bullet
-        if (sfKeyboard_isKeyPressed(sfKeySpace)) {
+        if (sfKeyboard_isKeyPressed(sfKeySpace) && fireTimer <= 0.f) {
             sfVector2i mousePos = sfMouse_getPositionRenderWindow(window);
             fireBullet(player, mousePos, window);
+            fireTimer = fireDelay;  // reset cooldown
         }
+
 
 
         // Update bullets
@@ -158,7 +174,7 @@ int main() {
 
                 if (apos.x < -200 || apos.x > WIDTH + 200 || apos.y < -200 || apos.y > HEIGHT + 200) {
                     if (asteroids[i].sprite) {
-                        sfSprite_destroy(asteroids[i].sprite); // destroy the asteroid's sprite, not bullets[i]
+                        sfSprite_destroy(asteroids[i].sprite);
                         asteroids[i].sprite = NULL;
                     }
                     asteroids[i].alive = sfFalse;
@@ -166,6 +182,38 @@ int main() {
             }
         }
 
+
+        // Bullet–Asteroid Collision
+        for (int i = 0; i < MAX_BULLETS; i++) {
+            if (bullets[i].alive && bullets[i].sprite) {
+                sfVector2f bpos = sfSprite_getPosition(bullets[i].sprite);
+
+                
+                float br = 4.f; 
+
+                for (int j = 0; j < MAX_ASTEROIDS; j++) {
+                    if (asteroids[j].alive && asteroids[j].sprite) {
+                        sfVector2f apos = sfSprite_getPosition(asteroids[j].sprite);
+
+                        // Approximate asteroid hit radius (about half width of sprite)
+                        float ar = sfSprite_getGlobalBounds(asteroids[j].sprite).width * 0.3f;
+
+                        if (distance(bpos, apos) < br + ar) {
+                            // --- Collision! ---
+                            sfSprite_destroy(bullets[i].sprite);
+                            bullets[i].sprite = NULL;
+                            bullets[i].alive = sfFalse;
+
+                            sfSprite_destroy(asteroids[j].sprite);
+                            asteroids[j].sprite = NULL;
+                            asteroids[j].alive = sfFalse;
+
+                            break; // stop checking this bullet
+                        }
+                    }
+                }
+            }
+        }
 
         // Update window
         update(player, window);
@@ -238,8 +286,8 @@ void rainAsteroids(sfSprite* player, sfRenderWindow* window){
             sfVector2f playerPos = sfSprite_getPosition(player);
             sfVector2f apos = sfSprite_getPosition(asteroidSprite);
 
-            float dx = playerPos.x - apos.x;
-            float dy = playerPos.y - apos.y;
+            float dx = playerPos.x - apos.x + getRandomNumberInRange(-100, 600);
+            float dy = playerPos.y - apos.y + getRandomNumberInRange(-100, 600);
             float length = sqrtf(dx*dx + dy*dy);
             if (length == 0.f) length = 1.f;
 
@@ -253,6 +301,12 @@ void rainAsteroids(sfSprite* player, sfRenderWindow* window){
             break;
         }
     }
+}
+
+
+int getRandomNumberInRange(int min, int max){
+    return (int) rand() % max - min + 1;
+    
 }
 
 
@@ -275,7 +329,7 @@ sfVector2f randomAsteroidPosition() {
         case 2: return (sfVector2f){rand() % WIDTH, HEIGHT + 50};   // bottom
         case 3: return (sfVector2f){-50, rand() % HEIGHT};          // left
     }
-    return (sfVector2f){0, 0}; // fallback
+    return (sfVector2f){0, 0}; // fallback in case weird stuff happens
 }
 
 
