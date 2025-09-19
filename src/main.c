@@ -46,6 +46,7 @@ void update(sfSprite* player, sfRenderWindow* window);
 void fireBullet(sfSprite* player, sfVector2i mousePos, sfRenderWindow* window);
 void rainAsteroids(sfSprite* player, sfRenderWindow* window);
 sfVector2f randomAsteroidPosition();
+sfSprite* getRandomAsteroid();
 
 // --- Main ---
 int main() {
@@ -225,7 +226,7 @@ void fireBullet(sfSprite* player, sfVector2i mousePos, sfRenderWindow* window) {
 void rainAsteroids(sfSprite* player, sfRenderWindow* window){
     for (int i = 0; i < MAX_ASTEROIDS; i++) {
         if (!asteroids[i].alive) {
-            sfSprite* asteroidSprite = createSpriteFromTexture(getAsteroidTexture1());
+            sfSprite* asteroidSprite = getRandomAsteroid();
             if (!asteroidSprite) {
                 fprintf(stderr, "Couldn't make sprite for asteroid\n");
                 return;
@@ -251,6 +252,17 @@ void rainAsteroids(sfSprite* player, sfRenderWindow* window){
             asteroids[i].alive = sfTrue;
             break;
         }
+    }
+}
+
+
+sfSprite* getRandomAsteroid(){
+    int side = rand() % 4;
+    switch (side) {
+        case 0: { return createSpriteFromTexture(getAsteroidTexture1()); };
+        case 1: { return createSpriteFromTexture(getAsteroidTexture2()); };  
+        case 2: { return createSpriteFromTexture(getAsteroidTexture3()); }; 
+        case 3: { return createSpriteFromTexture(getAsteroidTexture4()); }; 
     }
 }
 
