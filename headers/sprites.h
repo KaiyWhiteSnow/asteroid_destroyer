@@ -9,7 +9,10 @@ int loadResources(void);
 void freeResources(void);
 sfTexture* getPlayerTexture();
 sfTexture* getBulletTexture();
-sfTexture* getAsteroidTexture();
+sfTexture* getAsteroidTexture1();
+sfTexture* getAsteroidTexture2();
+sfTexture* getAsteroidTexture3();
+sfTexture* getAsteroidTexture4();
 sfSprite* createSpriteFromTexture(sfTexture* tex);
 
 #endif
