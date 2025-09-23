@@ -1,8 +1,9 @@
 #include <SFML/System.h>
 #include <SFML/Graphics.h>
 #include <math.h>
-#include "../headers/window.h"
-#include "../headers/time.h"
+
+#include "../../headers/graphics/window.h"
+#include "../../headers/core/time.h"
 
 
 #define M_PI 3.14159265358979323846264338327950288

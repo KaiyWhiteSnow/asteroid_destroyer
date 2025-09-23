@@ -1,5 +1,10 @@
 {
     "files.associations": {
-        "system.h": "c"
-    }
+        "system.h": "c",
+        "sprites.h": "c",
+        "asteroid.h": "c",
+        "time.h": "c",
+        "window.h": "c"
+    },
+    "todo-tree.tree.scanMode": "workspace"
 }

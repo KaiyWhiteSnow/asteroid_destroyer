@@ -1,17 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+
+
 #include <SFML/Graphics.h>
 #include <SFML/System/Vector2.h>
 #include <SFML/Window/VideoMode.h>
 #include <SFML/Audio.h>
 
-#include "../headers/color.h"
-#include "../headers/window.h"
-#include "../headers/time.h"
-#include "../headers/movement.h"
-#include "../headers/sprites.h"
-#include "../headers/sound.h"
+
+#include "../headers/graphics/color.h"
+#include "../headers/graphics/window.h"
+#include "../headers/core/time.h"
+#include "../headers/core/movement.h"
+#include "../headers/entities/sprites.h"
+#include "../headers/entities/asteroid.h"
+#include "../headers/audio/sound.h"
+
 
 #define MAX_BULLETS 500
 #define MAX_ASTEROIDS 30
@@ -51,7 +56,6 @@ void update(sfSprite* player, sfRenderWindow* window);
 void fireBullet(sfSprite* player, sfVector2i mousePos, sfRenderWindow* window);
 void rainAsteroids(sfSprite* player, sfRenderWindow* window);
 sfVector2f randomAsteroidPosition();
-sfSprite* getRandomAsteroid();
 int getRandomNumberInRange(int min, int max);
 
 
@@ -115,14 +119,15 @@ int main() {
         return 1;
     }
 
-
+    
+    // TODO: Add check to make sure these are created
     sfSound *shootfx = createSFX("./assets/sound/shoot.mp3", 40);
     sfSound *destroyAsteroidfx = createSFX("./assets/sound/destroy_asteroid.mp3", 40);
     sfMusic *music = createMusic("./assets/music/sabaton_acesinexile.mp3", 60);
     
 
-
     sfMusic_play(music);
+
 
     sfSprite_setPosition(player, getDefaultPlayerPosition());
     sfFloatRect pbounds = sfSprite_getLocalBounds(player);
@@ -319,17 +324,6 @@ void rainAsteroids(sfSprite* player, sfRenderWindow* window){
 int getRandomNumberInRange(int min, int max){
     return (int) rand() % max - min + 1;
     
-}
-
-
-sfSprite* getRandomAsteroid(){
-    int side = rand() % 4;
-    switch (side) {
-        case 0: { return createSpriteFromTexture(getAsteroidTexture1()); };
-        case 1: { return createSpriteFromTexture(getAsteroidTexture2()); };  
-        case 2: { return createSpriteFromTexture(getAsteroidTexture3()); }; 
-        case 3: { return createSpriteFromTexture(getAsteroidTexture4()); }; 
-    }
 }
 
 
