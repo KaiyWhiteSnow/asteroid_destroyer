@@ -4,12 +4,14 @@
 #include <SFML/Graphics.h>
 #include <SFML/System/Vector2.h>
 #include <SFML/Window/VideoMode.h>
+#include <SFML/Audio.h>
 
 #include "../headers/color.h"
 #include "../headers/window.h"
 #include "../headers/time.h"
 #include "../headers/movement.h"
 #include "../headers/sprites.h"
+#include "../headers/sound.h"
 
 #define MAX_BULLETS 500
 #define MAX_ASTEROIDS 30
@@ -114,6 +116,14 @@ int main() {
     }
 
 
+    sfSound *shootfx = createSFX("./assets/sound/shoot.mp3", 40);
+    sfSound *destroyAsteroidfx = createSFX("./assets/sound/destroy_asteroid.mp3", 40);
+    sfMusic *music = createMusic("./assets/music/sabaton_acesinexile.mp3", 60);
+    
+
+
+    sfMusic_play(music);
+
     sfSprite_setPosition(player, getDefaultPlayerPosition());
     sfFloatRect pbounds = sfSprite_getLocalBounds(player);
     sfSprite_setOrigin(player, (sfVector2f){pbounds.width / 2, pbounds.height / 2});
@@ -141,6 +151,7 @@ int main() {
 
         // Fire bullet
         if (sfKeyboard_isKeyPressed(sfKeySpace) && fireTimer <= 0.f) {
+            sfSound_play(shootfx);
             sfVector2i mousePos = sfMouse_getPositionRenderWindow(window);
             fireBullet(player, mousePos, window);
             fireTimer = fireDelay;  // reset cooldown
@@ -200,6 +211,7 @@ int main() {
 
                         if (distance(bpos, apos) < br + ar) {
                             // --- Collision! ---
+                            sfSound_play(destroyAsteroidfx);
                             sfSprite_destroy(bullets[i].sprite);
                             bullets[i].sprite = NULL;
                             bullets[i].alive = sfFalse;

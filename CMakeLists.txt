@@ -13,6 +13,7 @@ find_package(SFML 2.6 COMPONENTS system window graphics audio network REQUIRED)
 # Tvorba executable
 add_executable(
   ${PROJECT_NAME}
+  src/sound.c
   src/sprites.c
   src/window.c
   src/time.c
