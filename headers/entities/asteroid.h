@@ -6,6 +6,7 @@
 #include <SFML/Audio.h>
 
 sfSprite* getRandomAsteroid();
-
+sfVector2f randomAsteroidPosition();
+float getAsteroidBaseVelocity();
 
 #endif

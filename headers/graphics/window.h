@@ -7,5 +7,7 @@
 
 sfVideoMode getMode();
 
+int getHeight();
+int getWidth();
 
 #endif
