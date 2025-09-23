@@ -62,6 +62,7 @@ void checkMovementInput(sfEvent event) {
 }
 
 sfVector2f getDefaultPlayerPosition(){ return playerDefaultPosition; }
+
 double getPI(){
     return M_PI;
 }

@@ -14,48 +14,14 @@
 #include "../headers/core/time.h"
 #include "../headers/core/movement.h"
 #include "../headers/entities/sprites.h"
+#include "../headers/entities/bullet.h"
 #include "../headers/entities/asteroid.h"
 #include "../headers/audio/sound.h"
 
 
-#define MAX_BULLETS 500
-#define MAX_ASTEROIDS 30
-
-// Bullet struct
-typedef struct {
-    sfSprite* sprite;
-    sfVector2f velocity;
-    sfBool alive;
-} Bullet;
-
-
-typedef struct {
-    sfSprite* sprite;
-    sfVector2f velocity;
-    sfBool alive;
-} Asteroid;
-
-
-Bullet bullets[MAX_BULLETS];
-Asteroid asteroids[MAX_ASTEROIDS];
-
-// Globals
-float bulletVelocity = 400.f;
-float fireDelay = 0.2f;   // seconds between shots
-float fireTimer = 0.f;    // counts down
-
-
-
 // --- Prototypes --- Will move into proper files later
 void update(sfSprite* player, sfRenderWindow* window);
-void fireBullet(sfSprite* player, sfVector2i mousePos, sfRenderWindow* window);
-void rainAsteroids(sfSprite* player, sfRenderWindow* window);
-int getRandomNumberInRange(int min, int max);
 int wasSpriteCreated(sfSprite *sprite, sfRenderWindow *window);
-void updateAsteroids(float deltaTime);
-void shootBullets(sfSound *shootfx, sfRenderWindow *window, sfSprite *player);
-float distance(sfVector2f a, sfVector2f b);
-void updateBullets(float deltaTime);
 void bulletAsteroidCollisionHandler(sfSound *destroyAsteroidfx);
 
 
@@ -104,9 +70,9 @@ int main() {
 
     // Game loop
     while (sfRenderWindow_isOpen(window)) {
-    float deltaTime = restartDeltaTime();   
-    fireTimer -= deltaTime;
-    if (fireTimer < 0.f) fireTimer = 0.f;   
+        float deltaTime = restartDeltaTime();   
+        
+        updateFireTimer(deltaTime);
 
         // Process events
         while (sfRenderWindow_pollEvent(window, &event)) {
@@ -141,11 +107,11 @@ int main() {
 
     
     // Cleanup
-    for (int i = 0; i < MAX_BULLETS; i++) {
-        if (bullets[i].alive && bullets[i].sprite) {
-            sfSprite_destroy(bullets[i].sprite);
-            bullets[i].sprite = NULL;
-            bullets[i].alive = sfFalse;
+    for (int i = 0; i < getMaxBullets(); i++) {
+        if (getBullets()[i].alive && getBullets()[i].sprite) {
+            sfSprite_destroy(getBullets()[i].sprite);
+            getBullets()[i].sprite = NULL;
+            getBullets()[i].alive = sfFalse;
         }
     }
     
@@ -158,81 +124,36 @@ int main() {
 }
 
 // --- Functions ---
-void fireBullet(sfSprite* player, sfVector2i mousePos, sfRenderWindow* window) {
-    if (!player || !window || !getBulletTexture()) return;
-
-    for (int i = 0; i < MAX_BULLETS; i++) {
-        if (!bullets[i].alive) {
-            sfSprite* bulletSprite = createSpriteFromTexture(getBulletTexture());
-            if (!bulletSprite) {
-                fprintf(stderr, "Couldn't make sprite for bullet\n");
-                return;
-            }
-            bullets[i].sprite = bulletSprite;
-            sfVector2f playerPos = sfSprite_getPosition(player);
-            sfSprite_setPosition(bulletSprite, playerPos);
-            sfFloatRect bounds = sfSprite_getLocalBounds(bulletSprite);
-            sfSprite_setOrigin(bulletSprite, (sfVector2f){bounds.width / 2.f, bounds.height / 2.f});
-            // Direction to mouse
-            float dx = (float)mousePos.x - playerPos.x;
-            float dy = (float)mousePos.y - playerPos.y;
-            float length = sqrtf(dx*dx + dy*dy);
-            if (length == 0.f) length = 1.f;
-            bullets[i].velocity.x = (dx / length) * bulletVelocity;
-            bullets[i].velocity.y = (dy / length) * bulletVelocity;
-
-            float angle = atan2f(dy, dx) * 180.f / getPI();
-            sfSprite_setRotation(bulletSprite, angle - 90.f);
-
-            bullets[i].alive = sfTrue;
-            break;
-        }
-    }
-}
-
-
 void bulletAsteroidCollisionHandler(sfSound *destroyAsteroidfx){
     // Bullet–Asteroid Collision
-    for (int i = 0; i < MAX_BULLETS; i++) {
-        if (bullets[i].alive && bullets[i].sprite) {
-            sfVector2f bpos = sfSprite_getPosition(bullets[i].sprite);
+    for (int i = 0; i < getMaxBullets(); i++) {
+        if (!getBullets()[i].alive && !getBullets()[i].sprite) { continue; }
+        sfVector2f bpos = sfSprite_getPosition(getBullets()[i].sprite);
+        
+        float br = 4.f; 
 
-            
-            float br = 4.f; 
+        for (int j = 0; j < getMaxAsteroids(); j++) {
+            if (!getAsteroids()[j].alive && !getAsteroids()[j].sprite) { continue; }
+            sfVector2f apos = sfSprite_getPosition(getAsteroids()[j].sprite);
 
-            for (int j = 0; j < MAX_ASTEROIDS; j++) {
-                if (asteroids[j].alive && asteroids[j].sprite) {
-                    sfVector2f apos = sfSprite_getPosition(asteroids[j].sprite);
+            // Approximate asteroid hit radius (about half width of sprite)
+            float ar = sfSprite_getGlobalBounds(getAsteroids()[j].sprite).width * 0.3f;
 
-                    // Approximate asteroid hit radius (about half width of sprite)
-                    float ar = sfSprite_getGlobalBounds(asteroids[j].sprite).width * 0.3f;
+            if (distance(bpos, apos) < br + ar) {
+                // --- Collision! ---
+                sfSound_play(destroyAsteroidfx);
+                sfSprite_destroy(getBullets()[i].sprite);
+                getBullets()[i].sprite = NULL;
+                getBullets()[i].alive = sfFalse;
 
-                    if (distance(bpos, apos) < br + ar) {
-                        // --- Collision! ---
-                        sfSound_play(destroyAsteroidfx);
-                        sfSprite_destroy(bullets[i].sprite);
-                        bullets[i].sprite = NULL;
-                        bullets[i].alive = sfFalse;
+                sfSprite_destroy(getAsteroids()[j].sprite);
+                getAsteroids()[j].sprite = NULL;
+                getAsteroids()[j].alive = sfFalse;
 
-                        sfSprite_destroy(asteroids[j].sprite);
-                        asteroids[j].sprite = NULL;
-                        asteroids[j].alive = sfFalse;
-
-                        break; // stop checking this bullet
-                    }
-                }
+                break; // stop checking this bullet
             }
         }
-    }
-}
-
-
-void shootBullets(sfSound *shootfx, sfRenderWindow *window, sfSprite *player){
-    if (sfKeyboard_isKeyPressed(sfKeySpace) && fireTimer <= 0.f) {
-        sfSound_play(shootfx);
-        sfVector2i mousePos = sfMouse_getPositionRenderWindow(window);
-        fireBullet(player, mousePos, window);
-        fireTimer = fireDelay;  // reset cooldown
+        
     }
 }
 
@@ -248,103 +169,17 @@ int wasSpriteCreated(sfSprite *sprite, sfRenderWindow *window){
 }
 
 
-int getRandomNumberInRange(int min, int max){
-    return (int) rand() % max - min + 1;
-    
-}
-
-
-
-void rainAsteroids(sfSprite* player, sfRenderWindow* window){
-    for (int i = 0; i < MAX_ASTEROIDS; i++) {
-        if (!asteroids[i].alive) {
-            sfSprite* asteroidSprite = getRandomAsteroid();
-            if (!asteroidSprite) {
-                fprintf(stderr, "Couldn't make sprite for asteroid\n");
-                return;
-            }
-            sfSprite_setPosition(asteroidSprite, randomAsteroidPosition());
-            sfSprite_setScale(asteroidSprite, (sfVector2f){0.5f, 0.5f});
-
-            asteroids[i].sprite = asteroidSprite;
-            sfVector2f playerPos = sfSprite_getPosition(player);
-            sfVector2f apos = sfSprite_getPosition(asteroidSprite);
-
-            float dx = playerPos.x - apos.x + getRandomNumberInRange(-100, 600);
-            float dy = playerPos.y - apos.y + getRandomNumberInRange(-100, 600);
-            float length = sqrtf(dx*dx + dy*dy);
-            if (length == 0.f) length = 1.f;
-
-            asteroids[i].velocity.x = (dx / length) * getAsteroidBaseVelocity();
-            asteroids[i].velocity.y = (dy / length) * getAsteroidBaseVelocity();
-
-            float angle = atan2f(dy, dx) * 180.f / getPI();
-            sfSprite_setRotation(asteroidSprite, angle - 90.f);
-
-            asteroids[i].alive = sfTrue;
-            break;
-        }
-    }
-}
-
-void updateAsteroids(float deltaTime){
-    // Update asteroids
-    for (int i = 0; i < MAX_ASTEROIDS; i++) {
-        if (asteroids[i].alive && asteroids[i].sprite) {
-            sfVector2f apos = sfSprite_getPosition(asteroids[i].sprite);
-            apos.x += asteroids[i].velocity.x * deltaTime;  
-            apos.y += asteroids[i].velocity.y * deltaTime;
-            sfSprite_setPosition(asteroids[i].sprite, apos);
-
-            if (apos.x < -200 || apos.x > getWidth() + 200 || apos.y < -200 || apos.y > getHeight() + 200) {
-                if (asteroids[i].sprite) {
-                    sfSprite_destroy(asteroids[i].sprite);
-                    asteroids[i].sprite = NULL;
-                }
-                asteroids[i].alive = sfFalse;
-            }
-        }
-    }
-}
-
-
-float distance(sfVector2f a, sfVector2f b) {
-    float dx = a.x - b.x;
-    float dy = a.y - b.y;
-    return sqrtf(dx * dx + dy * dy);
-}
-
-
-void updateBullets(float deltaTime){
-    // Update bullets
-    for (int i = 0; i < MAX_BULLETS; i++) {
-        if (bullets[i].alive && bullets[i].sprite) {
-            sfVector2f bpos = sfSprite_getPosition(bullets[i].sprite);
-            bpos.x += bullets[i].velocity.x * deltaTime;  
-            bpos.y += bullets[i].velocity.y * deltaTime;
-            sfSprite_setPosition(bullets[i].sprite, bpos);
-
-            if (bpos.x < 0 || bpos.x > getWidth() || bpos.y < 0 || bpos.y > getHeight()) {
-                sfSprite_destroy(bullets[i].sprite);
-                bullets[i].sprite = NULL;
-                bullets[i].alive = sfFalse;
-            }
-        }
-    }
-}
-
-
 void update(sfSprite* player, sfRenderWindow* window) {
     sfRenderWindow_clear(window, sfGray());
     if (player)
         sfRenderWindow_drawSprite(window, player, NULL);
-    for (int i = 0; i < MAX_BULLETS; i++) {
-        if (bullets[i].alive && bullets[i].sprite)
-            sfRenderWindow_drawSprite(window, bullets[i].sprite, NULL);
+    for (int i = 0; i < getMaxBullets(); i++) {
+        if (getBullets()[i].alive && getBullets()[i].sprite)
+            sfRenderWindow_drawSprite(window, getBullets()[i].sprite, NULL);
     }
-    for (int i = 0; i < MAX_ASTEROIDS; i++) {
-        if (asteroids[i].alive && asteroids[i].sprite)
-        sfRenderWindow_drawSprite(window, asteroids[i].sprite, NULL);
+    for (int i = 0; i < getMaxAsteroids(); i++) {
+        if (getAsteroids()[i].alive && getAsteroids()[i].sprite)
+        sfRenderWindow_drawSprite(window, getAsteroids()[i].sprite, NULL);
     }
 
     sfRenderWindow_display(window);

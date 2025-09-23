@@ -2,9 +2,23 @@
 #include <SFML/Audio.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 #include "../../headers/entities/sprites.h"
 #include "../../headers/graphics/window.h"
+#include "../../headers/core/movement.h"
+
+int MAX_ASTEROIDS = 30;
+
+
+typedef struct {
+    sfSprite* sprite;
+    sfVector2f velocity;
+    sfBool alive;
+} Asteroid;
+
+
+Asteroid asteroids[30];
 
 
 float asteroidStartingVelocity = 200.f;
@@ -34,3 +48,74 @@ sfVector2f randomAsteroidPosition() {
     }
     return (sfVector2f){0, 0}; // fallback in case weird stuff happens
 }
+
+
+void updateAsteroids(float deltaTime){
+    // Update asteroids
+    for (int i = 0; i < getMaxAsteroids(); i++) {
+        if (asteroids[i].alive && asteroids[i].sprite) {
+            sfVector2f apos = sfSprite_getPosition(asteroids[i].sprite);
+            apos.x += asteroids[i].velocity.x * deltaTime;  
+            apos.y += asteroids[i].velocity.y * deltaTime;
+            sfSprite_setPosition(asteroids[i].sprite, apos);
+
+            if (apos.x < -200 || apos.x > getWidth() + 200 || apos.y < -200 || apos.y > getHeight() + 200) {
+                if (asteroids[i].sprite) {
+                    sfSprite_destroy(asteroids[i].sprite);
+                    asteroids[i].sprite = NULL;
+                }
+                asteroids[i].alive = sfFalse;
+            }
+        }
+    }
+}
+
+
+void rainAsteroids(sfSprite* player, sfRenderWindow* window){
+    for (int i = 0; i < getMaxAsteroids(); i++) {
+        if (!asteroids[i].alive) {
+            sfSprite* asteroidSprite = getRandomAsteroid();
+            if (!asteroidSprite) {
+                fprintf(stderr, "Couldn't make sprite for asteroid\n");
+                return;
+            }
+            sfSprite_setPosition(asteroidSprite, randomAsteroidPosition());
+            sfSprite_setScale(asteroidSprite, (sfVector2f){0.5f, 0.5f});
+
+            asteroids[i].sprite = asteroidSprite;
+            sfVector2f playerPos = sfSprite_getPosition(player);
+            sfVector2f apos = sfSprite_getPosition(asteroidSprite);
+
+            float dx = playerPos.x - apos.x + getRandomNumberInRange(-100, 600);
+            float dy = playerPos.y - apos.y + getRandomNumberInRange(-100, 600);
+            float length = sqrtf(dx*dx + dy*dy);
+            if (length == 0.f) length = 1.f;
+
+            asteroids[i].velocity.x = (dx / length) * getAsteroidBaseVelocity();
+            asteroids[i].velocity.y = (dy / length) * getAsteroidBaseVelocity();
+
+            float angle = atan2f(dy, dx) * 180.f / getPI();
+            sfSprite_setRotation(asteroidSprite, angle - 90.f);
+
+            asteroids[i].alive = sfTrue;
+            break;
+        }
+    }
+}
+
+int getRandomNumberInRange(int min, int max){
+    return (int) rand() % max - min + 1;
+}
+
+
+float distance(sfVector2f a, sfVector2f b) {
+    float dx = a.x - b.x;
+    float dy = a.y - b.y;
+    return sqrtf(dx * dx + dy * dy);
+}
+
+Asteroid* getAsteroids(){
+    return asteroids;
+}
+
+int getMaxAsteroids(){ return MAX_ASTEROIDS; }

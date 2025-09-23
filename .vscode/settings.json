@@ -4,7 +4,8 @@
         "sprites.h": "c",
         "asteroid.h": "c",
         "time.h": "c",
-        "window.h": "c"
+        "window.h": "c",
+        "graphics.h": "c"
     },
     "todo-tree.tree.scanMode": "workspace"
 }
