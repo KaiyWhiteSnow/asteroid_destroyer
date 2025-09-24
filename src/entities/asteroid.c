@@ -8,22 +8,23 @@
 #include "../../headers/graphics/window.h"
 #include "../../headers/core/movement.h"
 
+// Constants
 int MAX_ASTEROIDS = 30;
 
-
+// Structs
 typedef struct {
     sfSprite* sprite;
     sfVector2f velocity;
     sfBool alive;
 } Asteroid;
 
-
+// Arrays
 Asteroid asteroids[30];
 
-
+// non-const Variables
 float asteroidStartingVelocity = 200.f;
 
-
+// Returns a random asteroid (decided on compile, not runtime)
 sfSprite* getRandomAsteroid() {
     int side = rand() % 4;
     switch (side) {
@@ -33,9 +34,6 @@ sfSprite* getRandomAsteroid() {
         case 3: { return createSpriteFromTexture(getAsteroidTexture4()); }; 
     }
 }
-
-
-float getAsteroidBaseVelocity(){ return asteroidStartingVelocity; }
 
 
 sfVector2f randomAsteroidPosition() {
@@ -103,19 +101,16 @@ void rainAsteroids(sfSprite* player, sfRenderWindow* window){
     }
 }
 
-int getRandomNumberInRange(int min, int max){
-    return (int) rand() % max - min + 1;
-}
-
-
+// Calculate distance between 2 points
 float distance(sfVector2f a, sfVector2f b) {
     float dx = a.x - b.x;
     float dy = a.y - b.y;
     return sqrtf(dx * dx + dy * dy);
 }
 
-Asteroid* getAsteroids(){
-    return asteroids;
-}
+// Getters
 
 int getMaxAsteroids(){ return MAX_ASTEROIDS; }
+int getRandomNumberInRange(int min, int max){ return (int) rand() % max - min + 1; }
+float getAsteroidBaseVelocity(){ return asteroidStartingVelocity; }
+Asteroid* getAsteroids(){ return asteroids; }

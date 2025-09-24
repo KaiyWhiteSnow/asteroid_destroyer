@@ -18,6 +18,8 @@ sfBool isPlayerMovingRight = sfFalse;
 sfBool isPlayerMovingUp = sfFalse;
 sfBool isPlayerMovingDown = sfFalse;
 
+
+// Handles movement according to bools set in check movement input
 void handleMovement(sfSprite* player, float deltaTime) {
     sfVector2f playerMovement = {0.0f, 0.0f};
     if (isPlayerMovingRight) { playerMovement.x += playerVelocity * deltaTime; }
@@ -34,6 +36,7 @@ void handleMovement(sfSprite* player, float deltaTime) {
 }
 
 
+// Rotates player around to face mouse
 void handleRotation(sfSprite* player, sfRenderWindow* window){
     sfVector2i mousePos = sfMouse_getPositionRenderWindow(window);
     sfVector2f playerPos = sfSprite_getPosition(player);  
@@ -43,7 +46,7 @@ void handleRotation(sfSprite* player, sfRenderWindow* window){
     sfSprite_setRotation(player, angle);
 }
 
-
+// Check movement input sets bools that handle movement
 void checkMovementInput(sfEvent event) {
     if (event.type == sfEvtKeyPressed) {
         sfKeyCode keyCode = event.key.code;
@@ -61,8 +64,9 @@ void checkMovementInput(sfEvent event) {
     }
 }
 
-sfVector2f getDefaultPlayerPosition(){ return playerDefaultPosition; }
+// Getters
 
-double getPI(){
-    return M_PI;
-}
+// Returns starting position of a player
+sfVector2f getDefaultPlayerPosition(){ return playerDefaultPosition; }
+// Returns PI value
+double getPI(){ return M_PI; }

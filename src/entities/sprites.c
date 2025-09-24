@@ -1,6 +1,9 @@
 #include <SFML/Graphics.h>
 #include <stdio.h>
 
+
+// Textures init
+
 sfTexture*  playerTexture       = NULL;
 sfTexture*  bulletTexture       = NULL;
 sfTexture*  asteroidTexture1    = NULL;
@@ -10,6 +13,9 @@ sfTexture*  asteroidTexture4    = NULL;
 
 
 // --- Resource management ---
+
+// Load all resources
+// TODO: Consider loading with automated system
 int loadResources(void) {
     playerTexture = sfTexture_createFromFile("./assets/sprites/player.png", NULL);
     if (!playerTexture) {
@@ -45,6 +51,8 @@ int loadResources(void) {
     return 1;
 }
 
+
+// Free on application finish
 void freeResources(void) {
     if (playerTexture)      { sfTexture_destroy(playerTexture);      playerTexture       = NULL; }
     if (bulletTexture)      { sfTexture_destroy(bulletTexture);      bulletTexture       = NULL; }
@@ -65,9 +73,10 @@ sfSprite* createSpriteFromTexture(sfTexture* tex) {
 }
 
 
+// Getters
 
-sfTexture* getPlayerTexture()       {   return playerTexture;         }
-sfTexture* getBulletTexture()       {   return bulletTexture;         }
+sfTexture* getPlayerTexture()      {   return playerTexture;         }
+sfTexture* getBulletTexture()      {   return bulletTexture;         }
 sfTexture* getAsteroidTexture1()   {   return asteroidTexture1;      }
 sfTexture* getAsteroidTexture2()   {   return asteroidTexture2;      }
 sfTexture* getAsteroidTexture3()   {   return asteroidTexture3;      }

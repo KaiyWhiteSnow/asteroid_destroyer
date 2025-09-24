@@ -15,7 +15,8 @@
 #include "../../headers/entities/asteroid.h"
 #include "../../headers/audio/sound.h"
 
-
+// Handles bullet/asteroids collisions
+// TODO: Refactor this to make it more resource efficient
 void bulletAsteroidCollisionHandler(sfSound *destroyAsteroidfx){
     // Bullet–Asteroid Collision
     for (int i = 0; i < getMaxBullets(); i++) {

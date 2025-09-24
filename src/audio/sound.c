@@ -1,6 +1,6 @@
 #include <SFML/Audio.h>
 
-
+// Create sfSound* object
 sfSound* createSFX(char path[], int volume){
     sfSoundBuffer *shootSFX = sfSoundBuffer_createFromFile(path);
     sfSound *sound = sfSound_create();
@@ -11,7 +11,7 @@ sfSound* createSFX(char path[], int volume){
     return sound;
 }
 
-
+// Create sfMusic* object
 sfMusic* createMusic(char path[], int volume){
     sfMusic* music = sfMusic_createFromFile(path);
     if (volume > 100) volume = 100;

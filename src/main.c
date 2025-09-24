@@ -1,14 +1,15 @@
+// System imports
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
-
+// Library imports
 #include <SFML/Graphics.h>
 #include <SFML/System/Vector2.h>
 #include <SFML/Window/VideoMode.h>
 #include <SFML/Audio.h>
 
-
+// Custom imports
 #include "../headers/graphics/color.h"
 #include "../headers/graphics/window.h"
 #include "../headers/core/time.h"
@@ -27,46 +28,51 @@ int wasSpriteCreated(sfSprite *sprite, sfRenderWindow *window);
 
 // --- Main ---
 int main() {
+    // --- SFML setup ---
     sfRenderWindow* window;
     sfEvent event;
 
+    // --- Create window ---
     window = sfRenderWindow_create(getMode(), "Asteroid Destroyer", sfResize | sfClose, NULL);
     if (!window) return 1;
-    sfRenderWindow_setFramerateLimit(window, 60);
 
     if (!loadResources()) {
         sfRenderWindow_destroy(window);
         return 1;
     }
 
+    // Setup window 
+    sfRenderWindow_setFramerateLimit(window, 60);
 
-    // Player sprite
-    sfSprite* player = createSpriteFromTexture(getPlayerTexture());
+    // --- Sprites ---
+    sfSprite* player    = createSpriteFromTexture(getPlayerTexture());
     sfSprite* asteroid1 = createSpriteFromTexture(getAsteroidTexture1());
     sfSprite* asteroid2 = createSpriteFromTexture(getAsteroidTexture2());
     sfSprite* asteroid3 = createSpriteFromTexture(getAsteroidTexture3());
     sfSprite* asteroid4 = createSpriteFromTexture(getAsteroidTexture4());
     
-
+    // Make sure sprites were created properly 
+    // TODO: Needs testing
     wasSpriteCreated(player, window);
     wasSpriteCreated(asteroid1, window);
     wasSpriteCreated(asteroid2, window);
     wasSpriteCreated(asteroid3, window);
     wasSpriteCreated(asteroid4, window);
-
     
-    // TODO: Add check to make sure these are created
-    sfSound *shootfx = createSFX("./assets/sound/shoot.mp3", 40);
-    sfSound *destroyAsteroidfx = createSFX("./assets/sound/destroy_asteroid.mp3", 60);
-    sfMusic *music = createMusic("./assets/music/sabaton_acesinexile.mp3", 60);
-    
-
-    sfMusic_play(music);
-
-
+    // Player setup
     sfSprite_setPosition(player, getDefaultPlayerPosition());
     sfFloatRect pbounds = sfSprite_getLocalBounds(player);
     sfSprite_setOrigin(player, (sfVector2f){pbounds.width / 2, pbounds.height / 2});
+
+    // Sound and music setup
+    // TODO: Add check to make sure these are created
+    sfSound *shootfx            = createSFX("./assets/sound/shoot.mp3", 40);
+    sfSound *destroyAsteroidfx  = createSFX("./assets/sound/destroy_asteroid.mp3", 60);
+    sfMusic *music              = createMusic("./assets/music/sabaton_acesinexile.mp3", 60);
+    
+    // TODO: Make the music random, and start new song on old song stop
+    sfMusic_play(music);
+
 
     // Game loop
     while (sfRenderWindow_isOpen(window)) {
@@ -86,19 +92,22 @@ int main() {
         // Player rotation (towards mouse)
         handleRotation(player, window);
 
+
         // Handle asteroids
         rainAsteroids(player, window);
+
+        // Update asteroid position
+        updateAsteroids(deltaTime);
+
 
         // Fire bullet
         shootBullets(shootfx, window, player);
 
-
+        // Update bullet position
         updateBullets(deltaTime);
 
 
-        updateAsteroids(deltaTime);
-
-
+        // Check for bullet/asteroid collisions
         bulletAsteroidCollisionHandler(destroyAsteroidfx);
 
         // Update window
@@ -124,6 +133,11 @@ int main() {
 }
 
 // --- Functions ---
+
+// Check if sprite was created
+// Returns 1 on failed to create sprite
+// Returns 0 on sprite created
+// TODO: Test this properly
 int wasSpriteCreated(sfSprite *sprite, sfRenderWindow *window){
     if (!sprite) {
         fprintf(stderr, "Failed to create sprite\n");
@@ -134,7 +148,7 @@ int wasSpriteCreated(sfSprite *sprite, sfRenderWindow *window){
     return 0;
 }
 
-
+// Draw, render and handle display
 void update(sfSprite* player, sfRenderWindow* window) {
     sfRenderWindow_clear(window, sfGray());
     if (player)
