@@ -33,6 +33,7 @@ sfSprite* getRandomAsteroid() {
 }
 
 
+// Get a random position behind the border of the screen
 sfVector2f randomAsteroidPosition() {
     int side = rand() % 4; // 0=top, 1=right, 2=bottom, 3=left
     switch (side) {
@@ -45,8 +46,8 @@ sfVector2f randomAsteroidPosition() {
 }
 
 
+// Update asteroid position
 void updateAsteroids(float deltaTime){
-    // Update asteroids
     for (int i = 0; i < getMaxAsteroids(); i++) {
         if (asteroids[i].alive && asteroids[i].sprite) {
             sfVector2f apos = sfSprite_getPosition(asteroids[i].sprite);
@@ -65,7 +66,7 @@ void updateAsteroids(float deltaTime){
     }
 }
 
-
+// Asteroid handler
 void rainAsteroids(sfSprite* player, sfRenderWindow* window){
     for (int i = 0; i < getMaxAsteroids(); i++) {
         if (!asteroids[i].alive) {

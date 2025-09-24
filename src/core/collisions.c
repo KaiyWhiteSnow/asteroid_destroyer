@@ -46,6 +46,5 @@ void bulletAsteroidCollisionHandler(sfSound *destroyAsteroidfx){
                 break; // stop checking this bullet
             }
         }
-        
     }
 }

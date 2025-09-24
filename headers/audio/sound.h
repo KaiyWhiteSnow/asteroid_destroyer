@@ -6,7 +6,7 @@
 
 
 sfSound* createSFX(char path[], int volume);
-sfMusic* createMusic(char path[], int volume);
-
+sfMusic* createMusic(int volume);
+sfBool hasMusicStoppedPlaying(sfMusic* music);
 
 #endif

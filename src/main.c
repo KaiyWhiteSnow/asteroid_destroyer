@@ -67,11 +67,8 @@ int main() {
     // Sound and music setup
     // TODO: Add check to make sure these are created
     sfSound *shootfx            = createSFX("./assets/sound/shoot.mp3", 40);
-    sfSound *destroyAsteroidfx  = createSFX("./assets/sound/destroy_asteroid.mp3", 60);
-    sfMusic *music              = createMusic("./assets/music/sabaton_acesinexile.mp3", 60);
-    
-    // TODO: Make the music random, and start new song on old song stop
-    sfMusic_play(music);
+    sfSound *destroyAsteroidfx  = createSFX("./assets/sound/destroy_asteroid.mp3", 100);
+    sfMusic *music = NULL;
 
 
     // Game loop
@@ -79,6 +76,12 @@ int main() {
         float deltaTime = restartDeltaTime();   
         
         updateFireTimer(deltaTime);
+
+        if (hasMusicStoppedPlaying(music) || music == NULL){
+            if (music != NULL) sfMusic_destroy(music);
+            music = createMusic(60);
+            sfMusic_play(music);
+        }
 
         // Process events
         while (sfRenderWindow_pollEvent(window, &event)) {
@@ -125,6 +128,7 @@ int main() {
     }
     
     sfSprite_destroy(player);
+    sfMusic_destroy(music);
     freeResources();
     sfRenderWindow_destroy(window);
     sfClock_destroy(getClock());

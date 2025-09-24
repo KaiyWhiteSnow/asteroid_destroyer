@@ -11,7 +11,7 @@
 
 // Player movement and position
 sfVector2f playerDefaultPosition = { 400.f, 300.f };
-float playerVelocity = 500.f;
+float playerVelocity = 300.f;
 
 sfBool isPlayerMovingLeft = sfFalse;
 sfBool isPlayerMovingRight = sfFalse;
