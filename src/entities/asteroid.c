@@ -7,19 +7,16 @@
 #include "../../headers/entities/sprites.h"
 #include "../../headers/graphics/window.h"
 #include "../../headers/core/movement.h"
+#include "../../headers/entities/asteroid.h"
+
 
 // Constants
 int MAX_ASTEROIDS = 30;
 
-// Structs
-typedef struct {
-    sfSprite* sprite;
-    sfVector2f velocity;
-    sfBool alive;
-} Asteroid;
 
 // Arrays
 Asteroid asteroids[30];
+
 
 // non-const Variables
 float asteroidStartingVelocity = 200.f;

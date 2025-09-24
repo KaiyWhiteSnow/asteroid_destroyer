@@ -7,7 +7,7 @@
 #include "../../headers/entities/sprites.h"
 #include "../../headers/graphics/window.h"
 #include "../../headers/core/movement.h"
-
+#include "../../headers/entities/bullet.h"
 
 #define MAX_BULLETS 500
 
@@ -19,15 +19,9 @@ float fireDelay = 0.2f;   // seconds between shots
 float fireTimer = 0.f;    // counts down
 
 
-// Structs
-typedef struct {
-    sfSprite* sprite;
-    sfVector2f velocity;
-    sfBool alive;
-} Bullet;
-
 // Arrays
 Bullet bullets[MAX_BULLETS];
+
 
 // Handles bullets being shot
 void _fireBullet(sfSprite* player, sfVector2i mousePos, sfRenderWindow* window) {
