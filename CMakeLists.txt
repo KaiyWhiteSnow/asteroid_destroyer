@@ -19,6 +19,7 @@ add_executable(
   src/graphics/window.c
   src/graphics/color.c
   src/core/time.c
+  src/core/collisions.c
   src/core/movement.c
   src/audio/sound.c
   src/main.c
