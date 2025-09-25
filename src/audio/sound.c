@@ -19,7 +19,7 @@ sfSound* createSFX(char path[], int volume){
 
 // Create sfMusic* object
 sfMusic* createMusic(int volume){
-    int randomSong = rand() % 3;
+    int randomSong = next_number(0, 4);
     switch (randomSong) {
         case 0: {   *song = "./assets/music/sabaton_acesinexile.mp3";         };
         case 1: {   *song = "./assets/music/sabaton_attackofthedeadmen.mp3";  };  

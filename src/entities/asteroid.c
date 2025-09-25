@@ -8,14 +8,15 @@
 #include "../../headers/graphics/window.h"
 #include "../../headers/core/movement.h"
 #include "../../headers/entities/asteroid.h"
+#include "../../headers/math/random.h"
 
 
 // Constants
-int MAX_ASTEROIDS = 30;
+int MAX_ASTEROIDS = 50;
 
 
 // Arrays
-Asteroid asteroids[30];
+Asteroid asteroids[50];
 
 
 // non-const Variables
@@ -82,8 +83,8 @@ void rainAsteroids(sfSprite* player, sfRenderWindow* window){
             sfVector2f playerPos = sfSprite_getPosition(player);
             sfVector2f apos = sfSprite_getPosition(asteroidSprite);
 
-            float dx = playerPos.x - apos.x + getRandomNumberInRange(-100, 600);
-            float dy = playerPos.y - apos.y + getRandomNumberInRange(-100, 600);
+            float dx = playerPos.x - apos.x + getRandomNumberInRange(-50, 50);
+            float dy = playerPos.y - apos.y + getRandomNumberInRange(-50, 50);
             float length = sqrtf(dx*dx + dy*dy);
             if (length == 0.f) length = 1.f;
 
