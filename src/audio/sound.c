@@ -2,7 +2,15 @@
 #include <math.h>
 #include <stdlib.h>
 
-char *song[50];
+
+char *songs[50] = {
+    "./assets/music/sabaton_acesinexile.mp3", 
+    "./assets/music/sabaton_attackofthedeadmen.mp3", 
+    "./assets/music/sabaton_wehrmacht.mp3"
+};
+
+int lastSongIndex = 0;
+
 
 // Create sfSound* object
 sfSound* createSFX(char path[], int volume){
@@ -19,16 +27,12 @@ sfSound* createSFX(char path[], int volume){
 
 // Create sfMusic* object
 sfMusic* createMusic(int volume){
-    int randomSong = next_number(0, 4);
-    switch (randomSong) {
-        case 0: {   *song = "./assets/music/sabaton_acesinexile.mp3";         };
-        case 1: {   *song = "./assets/music/sabaton_attackofthedeadmen.mp3";  };  
-        case 2: {   *song = "./assets/music/sabaton_wehrmacht.mp3"            ;}
-    }
-    sfMusic* music = sfMusic_createFromFile(*song);
+    sfMusic* music = sfMusic_createFromFile(songs[lastSongIndex]);
     if (volume > 100) volume = 100;
     if (volume < 0) volume = 0;
     sfMusic_setVolume(music, volume);
+    lastSongIndex++;
+    if (lastSongIndex == 3) lastSongIndex = 0;
     return music;
 }
 

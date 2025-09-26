@@ -14,5 +14,6 @@ sfTexture* getAsteroidTexture2();
 sfTexture* getAsteroidTexture3();
 sfTexture* getAsteroidTexture4();
 sfSprite* createSpriteFromTexture(sfTexture* tex);
+int wasSpriteCreated(sfSprite *sprite, sfRenderWindow *window);
 
 #endif

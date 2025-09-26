@@ -73,6 +73,20 @@ sfSprite* createSpriteFromTexture(sfTexture* tex) {
 }
 
 
+// Check if sprite was created
+// Returns 1 on failed to create sprite
+// Returns 0 on sprite created
+// TODO: Test this properly
+int wasSpriteCreated(sfSprite *sprite, sfRenderWindow *window){
+    if (!sprite) {
+        fprintf(stderr, "Failed to create sprite\n");
+        freeResources();
+        sfRenderWindow_destroy(window);
+        return 1;
+    }
+    return 0;
+}
+
 // Getters
 
 sfTexture* getPlayerTexture()      {   return playerTexture;         }

@@ -24,7 +24,6 @@
 
 // --- Prototypes --- Will move into proper files later
 void update(sfSprite* player, sfRenderWindow* window);
-int wasSpriteCreated(sfSprite *sprite, sfRenderWindow *window);
 
 
 // --- Main ---
@@ -138,20 +137,6 @@ int main() {
 }
 
 // --- Functions ---
-
-// Check if sprite was created
-// Returns 1 on failed to create sprite
-// Returns 0 on sprite created
-// TODO: Test this properly
-int wasSpriteCreated(sfSprite *sprite, sfRenderWindow *window){
-    if (!sprite) {
-        fprintf(stderr, "Failed to create sprite\n");
-        freeResources();
-        sfRenderWindow_destroy(window);
-        return 1;
-    }
-    return 0;
-}
 
 // Draw, render and handle display
 void update(sfSprite* player, sfRenderWindow* window) {

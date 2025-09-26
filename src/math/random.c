@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 
+// NOT WORKING
 // Simple Linear Congruential Generator (LCG)
 int seed = 123456789;  // initial seed 
 int last_value = NULL;

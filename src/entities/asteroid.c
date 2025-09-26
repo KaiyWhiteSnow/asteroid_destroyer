@@ -8,7 +8,6 @@
 #include "../../headers/graphics/window.h"
 #include "../../headers/core/movement.h"
 #include "../../headers/entities/asteroid.h"
-#include "../../headers/math/random.h"
 
 
 // Constants
